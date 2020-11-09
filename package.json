@@ -5,8 +5,12 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "@emotion/core": "^10.1.1",
+    "@emotion/styled": "^10.0.27",
+    "@material-ui/styles": "^4.10.0",
     "gatsby": "^2.25.3",
     "gatsby-plugin-manifest": "^2.5.2",
+    "gatsby-plugin-material-ui": "^2.1.10",
     "gatsby-plugin-react-helmet": "^3.3.14",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
@@ -22,7 +26,7 @@
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^2.4.0",
     "eslint-plugin-simple-import-sort": "5.0.3",
-    "gatsby-plugin-emotion": "^4.3.13",
+    "gatsby-plugin-emotion": "^4.3.15",
     "gatsby-plugin-eslint": "^2.0.8",
     "gatsby-plugin-root-import": "^2.0.5",
     "prettier": "2.1.2",
@@ -33,7 +37,7 @@
   "keywords": [
     "gatsby"
   ],
-  "license": "0BSD",
+  "license": "MIT",
   "scripts": {
     "build": "gatsby build",
     "develop": "npm run format && gatsby develop",
