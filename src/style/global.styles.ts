@@ -21,11 +21,4 @@ export const global = css`
     font-family: Roboto, Helvetica, sans-serif;
     font-size: 16px;
   }
-
-  img {
-    display: block;
-    max-width: 100%;
-    font-style: italic;
-    image-rendering: auto;
-  }
 `;
