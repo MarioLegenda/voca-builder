@@ -18,7 +18,8 @@ export const global = css`
   }
 
   body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Roboto, Helvetica, sans-serif;
+    font-size: 16px;
   }
 
   img {
@@ -26,10 +27,5 @@ export const global = css`
     max-width: 100%;
     font-style: italic;
     image-rendering: auto;
-  }
-
-  .gatsby-image-wrapper img[src*='base64\\,'] {
-    image-rendering: -moz-crisp-edges;
-    image-rendering: pixelated;
   }
 `;
