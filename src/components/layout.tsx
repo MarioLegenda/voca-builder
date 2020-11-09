@@ -5,6 +5,7 @@
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
 
@@ -23,6 +24,7 @@ const Layout: React.FC = ({ children }) => {
 
   return (
     <>
+      <CssBaseline />
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
       <div>
         <main>{children}</main>
