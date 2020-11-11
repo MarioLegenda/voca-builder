@@ -1,5 +1,11 @@
 {
   "add-word": {
-    "title": "Add a word"
+    "title": "ADD A WORD",
+    "explanation": {
+      "addWord": "You can add a word of any language. What you translate this word to, is up to you. The language selection is only here to communicate with Yandex API to provide a more complete translation"
+    },
+    "form": {
+      "placeholder": "Your word"
+    }
   }
 }

@@ -6,11 +6,18 @@ export const global = css`
     --unit-vw-base: 5vw;
     --unit-px-base: 5px;
     --unit-grid-base: 1fr;
-
-    --background-color: #e4e4e4;
-
+    
     --base-font-size-px: 16px;
     --base-font-size-em: 1em;
+
+    --color-highlight: rgb(244, 237, 231);
+    --color-primary: rgb(224, 207, 230)
+    --color-secondary: rgb(0, 81, 142);
+    
+    --color-text: rgb(48, 47, 59);
+    --color-text-light: rgb(174, 174, 176);
+
+    --background-color: var(--color-highlight);
   }
 
   html {

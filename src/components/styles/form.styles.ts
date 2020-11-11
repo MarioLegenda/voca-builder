@@ -5,6 +5,6 @@ export const textField = css`
   font-size: calc(var(--base-font-size-em));
   padding: calc(var(--unit-px-base) * 2);
   border-radius: var(--unit-px-base);
-  border: 1px solid gray;
+  border: 4px solid var(--color-highlight);
   margin-bottom: calc(var(--unit-px-base) * 2);
 `;
