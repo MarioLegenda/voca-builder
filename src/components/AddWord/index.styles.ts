@@ -22,3 +22,9 @@ export const title = css`
   color: var(--color-text);
   border-bottom: 4px solid var(--color-highlight);
 `;
+
+export const twoRowGrid = css`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: var(--unit-px-base);
+`;
