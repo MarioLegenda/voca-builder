@@ -2,9 +2,9 @@ import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
 import Select from 'react-select';
 
+import CountryRepository from '../../app/repository/CountryRepository';
 import * as form from './../styles/form.styles';
 import * as index from './index.styles';
-import CountryRepository from "../../app/repository/CountryRepository"
 
 const query = graphql`
   query {
