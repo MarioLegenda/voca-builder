@@ -10,6 +10,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
 
 import Header from './header';
+import * as layout from './styles/layout.styles';
 
 const Layout: React.FC = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -24,10 +25,9 @@ const Layout: React.FC = ({ children }) => {
 
   return (
     <>
-      <CssBaseline />
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
-      <div>
-        <main>{children}</main>
+      <div css={layout.root}>
+        <main css={layout.main}>{children}</main>
       </div>
     </>
   );

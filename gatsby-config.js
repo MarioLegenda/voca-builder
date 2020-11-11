@@ -40,16 +40,13 @@ module.exports = {
       },
     },
     `gatsby-plugin-emotion`,
+    `gatsby-transformer-json`,
     {
-      resolve: `gatsby-plugin-material-ui`,
+      resolve: `gatsby-source-filesystem`,
       options: {
-        stylesProvider: {
-          injectFirst: true,
-        },
+        name: `metadata`,
+        path: `${__dirname}/src/metadata/`,
       },
     },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
   ],
 }
