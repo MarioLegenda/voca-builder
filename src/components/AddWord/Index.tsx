@@ -4,6 +4,7 @@ import Select from 'react-select';
 
 import * as form from './../styles/form.styles';
 import * as index from './index.styles';
+import CountryRepository from "../../app/repository/CountryRepository"
 
 const query = graphql`
   query {
