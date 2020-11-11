@@ -5,7 +5,11 @@
       "addWord": "You can add a word of any language. What you translate this word to, is up to you. The language selection is only here to communicate with Yandex API to provide a more complete translation"
     },
     "form": {
-      "placeholder": "Your word"
+      "placeholders": {
+        "addWord": "Your word",
+        "translation": "Your translation",
+        "translationDesc": "Translation description"
+      }
     }
   }
 }

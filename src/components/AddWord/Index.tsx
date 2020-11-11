@@ -11,7 +11,11 @@ const query = graphql`
       add_word {
         title
         form {
-          placeholder
+          placeholders {
+            addWord
+            translation
+            translationDesc
+          }
         }
         explanation {
           addWord
@@ -24,7 +28,13 @@ const query = graphql`
 interface IAddWordMetadata {
   title: string;
   placeholder: string;
-  form: { placeholder: string };
+  form: {
+    placeholders: {
+      addWord: string;
+      translation: string;
+      translationDesc: string;
+    };
+  };
   explanation: { addWord: string };
 }
 
@@ -53,8 +63,9 @@ export const Index: React.FC = () => {
       <div>
         <input
           css={form.textField}
+          name="addWord"
           type="text"
-          placeholder={metadata.form.placeholder}
+          placeholder={metadata.form.placeholders.addWord}
         />
 
         <div css={index.twoRowGrid}>
@@ -69,6 +80,19 @@ export const Index: React.FC = () => {
             styles={selectStyles}
             placeholder="To language"
           />
+        </div>
+
+        <div css={index.translationWrapper}>
+          <input
+            css={form.textField}
+            type="text"
+            placeholder={metadata.form.placeholders.translation}
+          />
+
+          <textarea
+            css={form.textField}
+            placeholder={metadata.form.placeholders.translationDesc}
+          ></textarea>
         </div>
       </div>
     </div>

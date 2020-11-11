@@ -27,4 +27,8 @@ export const twoRowGrid = css`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: var(--unit-px-base);
+
+  margin-bottom: calc(var(--unit-vh-base) * 2);
 `;
+
+export const translationWrapper = css``;
