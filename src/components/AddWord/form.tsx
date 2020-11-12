@@ -4,7 +4,6 @@ import Select from 'react-select';
 import { SelectOption } from '../contracts';
 import * as form from '../styles/form.styles';
 import * as index from './index.styles';
-import { actionButton, primaryButton, removeButton } from './index.styles';
 
 interface FormProps {
   countries: SelectOption[];
@@ -20,13 +19,27 @@ interface TranslationBlockProps {
   translationDescPlaceholder: string;
 }
 
+function createTranslationBlocks(
+  initial: number[],
+  translation: string,
+  translationDesc: string,
+) {
+  return initial.map((b, i) => (
+    <TranslationBlock
+      key={i}
+      translationPlaceholder={translation}
+      translationDescPlaceholder={translationDesc}
+    />
+  ));
+}
+
 const TranslationBlock: React.FC<TranslationBlockProps> = (
   props: TranslationBlockProps,
 ) => {
   const { translationPlaceholder, translationDescPlaceholder } = props;
 
   return (
-    <div css={index.translationWrapper}>
+    <div css={index.translation}>
       <input
         css={form.textField}
         type="text"
@@ -37,9 +50,6 @@ const TranslationBlock: React.FC<TranslationBlockProps> = (
         css={form.textField}
         placeholder={translationDescPlaceholder}
       ></textarea>
-
-      <button css={[actionButton, primaryButton]}>Add</button>
-      <button css={[actionButton, removeButton]}>Remove</button>
     </div>
   );
 };
@@ -48,29 +58,29 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
   const { countries, formMetadata } = props;
   const { addWordPlaceholder, translation, translationDesc } = formMetadata;
 
-  const [translationBlocks] = useState([]);
+  const [translationBlocks, setTranslationBlocks] = useState([0]);
+
+  const addBlock = () => {
+    translationBlocks.push(translationBlocks.length + 1);
+
+    setTranslationBlocks(() => [...translationBlocks]);
+  };
+
+  const removeBlock = (idx: number) => {
+    translationBlocks.splice(idx, 1);
+
+    setTranslationBlocks(() => [...translationBlocks]);
+  };
 
   const selectStyles = {
     control: (base) => ({ ...base, border: '4px solid rgb(244, 237, 231)' }),
   };
 
-  const tBlocks = translationBlocks.map((b, i) => (
-    <TranslationBlock
-      key={i}
-      translationPlaceholder={translation}
-      translationDescPlaceholder={translationDesc}
-    />
-  ));
-
-  if (tBlocks.length === 0) {
-    tBlocks[0] = (
-      <TranslationBlock
-        key={0}
-        translationPlaceholder={translation}
-        translationDescPlaceholder={translationDesc}
-      />
-    );
-  }
+  const tBlocks = createTranslationBlocks(
+    translationBlocks,
+    translation,
+    translationDesc,
+  );
 
   return (
     <div>
@@ -95,7 +105,23 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
         />
       </div>
 
-      {tBlocks}
+      <div>{tBlocks}</div>
+
+      <button
+        onClick={addBlock}
+        css={[index.actionButton, index.primaryButton]}
+      >
+        Add
+      </button>
+
+      {tBlocks.length > 1 && (
+        <button
+          onClick={removeBlock}
+          css={[index.actionButton, index.removeButton]}
+        >
+          Remove
+        </button>
+      )}
     </div>
   );
 };

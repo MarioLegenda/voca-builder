@@ -10,7 +10,7 @@ export const root = css`
 `;
 
 export const main = css`
-  margin-top: calc(var(--unit-vh-base) * 2);
+  margin: calc(var(--unit-vh-base) * 2) calc(var(--unit-vh-base) * 2);
 
   @media all and (min-width: 320px) {
     width: 100%;
