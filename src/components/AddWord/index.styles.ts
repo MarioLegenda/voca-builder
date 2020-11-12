@@ -29,8 +29,6 @@ export const twoRowGrid = css`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: var(--unit-px-base);
-
-  margin-bottom: calc(var(--unit-vh-base) * 2);
 `;
 
 export const translation = css`
@@ -40,6 +38,13 @@ export const translation = css`
     margin-bottom: calc(var(--unit-px-base));
   }
 `;
+
+export function blockSeparator(unit: number) {
+  return css`
+    margin: calc(var(--unit-px-base) * ${unit})
+      calc(var(--unit-px-base) * ${unit});
+  `;
+}
 
 export const actionButton = css`
   background-color: white;

@@ -6,5 +6,11 @@ export const textField = css`
   padding: calc(var(--unit-px-base) * 2);
   border-radius: var(--unit-px-base);
   border: 4px solid var(--color-highlight);
-  margin-bottom: calc(var(--unit-px-base) * 2);
+`;
+
+export const error = css`
+  color: var(--color-error);
+  border-left: 4px solid var(--color-error);
+  padding-left: calc(var(--unit-px-base) * 2);
+  margin-bottom: calc(var(--unit-px-base) * 5);
 `;

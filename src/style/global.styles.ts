@@ -16,6 +16,7 @@ export const global = css`
 
     --color-text: rgb(48, 47, 59);
     --color-text-light: rgb(174, 174, 176);
+    --color-error: rgb(214, 53, 12);
 
     --color-background: var(--color-highlight);
   }

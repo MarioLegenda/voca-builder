@@ -46,11 +46,32 @@ const TranslationBlock: React.FC<TranslationBlockProps> = (
         placeholder={translationPlaceholder}
       />
 
+      <div css={index.blockSeparator(2)} />
+
       <textarea
         css={form.textField}
         placeholder={translationDescPlaceholder}
       ></textarea>
     </div>
+  );
+};
+
+const TextField: React.FC<{ placeholder: string }> = (props: {
+  placeholder: string;
+}) => {
+  const { placeholder } = props;
+
+  return (
+    <>
+      <input
+        css={form.textField}
+        name="addWord"
+        type="text"
+        placeholder={placeholder}
+      />
+
+      <p css={form.error}>An error should go here</p>
+    </>
   );
 };
 
@@ -84,12 +105,7 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
 
   return (
     <div>
-      <input
-        css={form.textField}
-        name="addWord"
-        type="text"
-        placeholder={addWordPlaceholder}
-      />
+      <TextField placeholder={addWordPlaceholder} />
 
       <div css={index.twoRowGrid}>
         <Select
@@ -104,6 +120,8 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
           placeholder="To language"
         />
       </div>
+
+      <div css={index.blockSeparator(15)} />
 
       <div>{tBlocks}</div>
 
