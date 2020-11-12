@@ -34,3 +34,25 @@ export const twoRowGrid = css`
 export const translationWrapper = css`
   margin-bottom: calc(var(--unit-px-base) * 2);
 `;
+
+export const actionButton = css`
+  background-color: white;
+  border: none;
+  float: right;
+  padding: 0;
+  cursor: pointer;
+  font-size: calc(var(--base-font-size-px) - 2px);
+
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+export const primaryButton = css`
+  color: var(--color-primary);
+  margin-left: calc(var(--unit-px-base) * 2);
+`;
+
+export const removeButton = css`
+  color: red;
+`;

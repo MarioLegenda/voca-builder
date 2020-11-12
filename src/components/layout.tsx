@@ -5,7 +5,6 @@
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
 

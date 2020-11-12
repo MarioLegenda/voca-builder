@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 
 import { SelectOption } from '../contracts';
 import * as form from '../styles/form.styles';
 import * as index from './index.styles';
+import { actionButton, primaryButton, removeButton } from './index.styles';
 
 interface FormProps {
   countries: SelectOption[];
@@ -36,6 +37,9 @@ const TranslationBlock: React.FC<TranslationBlockProps> = (
         css={form.textField}
         placeholder={translationDescPlaceholder}
       ></textarea>
+
+      <button css={[actionButton, primaryButton]}>Add</button>
+      <button css={[actionButton, removeButton]}>Remove</button>
     </div>
   );
 };
@@ -44,9 +48,29 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
   const { countries, formMetadata } = props;
   const { addWordPlaceholder, translation, translationDesc } = formMetadata;
 
+  const [translationBlocks] = useState([]);
+
   const selectStyles = {
     control: (base) => ({ ...base, border: '4px solid rgb(244, 237, 231)' }),
   };
+
+  const tBlocks = translationBlocks.map((b, i) => (
+    <TranslationBlock
+      key={i}
+      translationPlaceholder={translation}
+      translationDescPlaceholder={translationDesc}
+    />
+  ));
+
+  if (tBlocks.length === 0) {
+    tBlocks[0] = (
+      <TranslationBlock
+        key={0}
+        translationPlaceholder={translation}
+        translationDescPlaceholder={translationDesc}
+      />
+    );
+  }
 
   return (
     <div>
@@ -71,10 +95,7 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
         />
       </div>
 
-      <TranslationBlock
-        translationPlaceholder={translation}
-        translationDescPlaceholder={translationDesc}
-      />
+      {tBlocks}
     </div>
   );
 };
