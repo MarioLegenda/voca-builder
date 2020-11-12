@@ -4,7 +4,7 @@ export const root = css`
   display: flex;
   justify-content: center;
 
-  background-color: var(--background-color);
+  background-color: var(--color-background);
 
   min-height: 100vh;
 `;

@@ -17,7 +17,7 @@ export const global = css`
     --color-text: rgb(48, 47, 59);
     --color-text-light: rgb(174, 174, 176);
 
-    --background-color: var(--color-highlight);
+    --color-background: var(--color-highlight);
   }
 
   html {
@@ -36,5 +36,10 @@ export const global = css`
     min-width: 320px;
     min-height: 100vh;
     background-color: var(--background-color);
+  }
+
+  button {
+    border: none;
+    background-color: white;
   }
 `;

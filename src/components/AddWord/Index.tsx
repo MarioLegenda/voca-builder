@@ -55,6 +55,10 @@ export const Index: React.FC = () => {
       />
 
       <Form countries={countries} formMetadata={formMetadata} />
+
+      <button disabled css={index.saveButton}>
+        SAVE
+      </button>
     </div>
   );
 };
