@@ -10,3 +10,8 @@ export interface IAddWordMetadata {
   };
   explanation: { addWord: string };
 }
+
+export interface SelectOption {
+  value: string;
+  label: string;
+}
