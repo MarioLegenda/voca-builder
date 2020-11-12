@@ -1,8 +1,9 @@
 import { graphql, useStaticQuery } from 'gatsby';
-import React from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Select from 'react-select';
 
-import CountryRepository from '../../app/repository/CountryRepository';
+import { Country } from '../../app/http/model/Country';
+import { useCountries } from '../hooks';
 import * as form from './../styles/form.styles';
 import * as index from './index.styles';
 
@@ -23,6 +24,14 @@ const query = graphql`
         }
       }
     }
+
+    countryList {
+      data {
+        alpha2Code
+        alpha3Code
+        name
+      }
+    }
   }
 `;
 
@@ -40,14 +49,10 @@ interface IAddWordMetadata {
 }
 
 export const Index: React.FC = () => {
-  const metadata: IAddWordMetadata = useStaticQuery(query).metadataJson
-    .add_word;
+  const q = useStaticQuery(query);
 
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ];
+  const metadata: IAddWordMetadata = q.metadataJson.add_word;
+  const countries = useCountries(q.countryList.data);
 
   const selectStyles = {
     control: (base) => ({ ...base, border: '4px solid rgb(244, 237, 231)' }),
@@ -71,13 +76,13 @@ export const Index: React.FC = () => {
 
         <div css={index.twoRowGrid}>
           <Select
-            options={options}
+            options={countries}
             styles={selectStyles}
             placeholder="From language"
           />
 
           <Select
-            options={options}
+            options={countries}
             styles={selectStyles}
             placeholder="To language"
           />
