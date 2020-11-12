@@ -31,4 +31,6 @@ export const twoRowGrid = css`
   margin-bottom: calc(var(--unit-vh-base) * 2);
 `;
 
-export const translationWrapper = css``;
+export const translationWrapper = css`
+  margin-bottom: calc(var(--unit-px-base) * 2);
+`;
