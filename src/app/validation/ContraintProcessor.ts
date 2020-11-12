@@ -1,4 +1,4 @@
-import IConstraint from "./constraints/IConstraint"
+import IConstraint from './constraints/IConstraint';
 
 export default class ConstraintProcessor {
   constructor(private constraints: IConstraint[] = []) {}

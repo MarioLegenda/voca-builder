@@ -65,24 +65,5 @@ export const primaryButton = css`
 `;
 
 export const removeButton = css`
-  color: red;
-`;
-
-export const saveButton = css`
-  margin: calc(var(--unit-px-base) * 10) 0 0 auto;
-  display: inline-block;
-  margin-left: auto;
-  padding: calc(var(--unit-px-base) * 3);
-  border-radius: var(--unit-px-base);
-
-  color: white;
-  background-color: var(--color-background);
-  font-weight: bolder;
-  font-size: var(--base-font-size-em);
-
-  cursor: pointer;
-
-  :disabled {
-    cursor: not-allowed;
-  }
+  color: var(--color-error);
 `;

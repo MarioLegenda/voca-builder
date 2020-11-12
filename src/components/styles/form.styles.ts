@@ -14,3 +14,22 @@ export const error = css`
   padding-left: calc(var(--unit-px-base) * 2);
   margin-bottom: calc(var(--unit-px-base) * 5);
 `;
+
+export const saveButton = css`
+  margin: calc(var(--unit-px-base) * 10) 0 0 auto;
+  display: inline-block;
+  margin-left: auto;
+  padding: calc(var(--unit-px-base) * 3);
+  border-radius: var(--unit-px-base);
+
+  color: white;
+  background-color: var(--color-background);
+  font-weight: bolder;
+  font-size: var(--base-font-size-em);
+
+  cursor: pointer;
+
+  :disabled {
+    cursor: not-allowed;
+  }
+`;

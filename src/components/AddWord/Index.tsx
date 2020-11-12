@@ -3,6 +3,7 @@ import React from 'react';
 
 import { IAddWordMetadata } from '../contracts';
 import { useCountries } from '../hooks';
+import * as form from './../styles/form.styles';
 import { Form } from './form';
 import { Header } from './header';
 import * as index from './index.styles';
@@ -56,7 +57,7 @@ export const Index: React.FC = () => {
 
       <Form countries={countries} formMetadata={formMetadata} />
 
-      <button disabled css={index.saveButton}>
+      <button disabled css={form.saveButton}>
         SAVE
       </button>
     </div>
