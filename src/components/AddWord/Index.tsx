@@ -1,10 +1,11 @@
 import { graphql, useStaticQuery } from 'gatsby';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React from 'react';
 import Select from 'react-select';
 
-import { Country } from '../../app/http/model/Country';
+import { IAddWordMetadata } from '../contracts';
 import { useCountries } from '../hooks';
 import * as form from './../styles/form.styles';
+import { Header } from './header';
 import * as index from './index.styles';
 
 const query = graphql`
@@ -35,19 +36,6 @@ const query = graphql`
   }
 `;
 
-interface IAddWordMetadata {
-  title: string;
-  placeholder: string;
-  form: {
-    placeholders: {
-      addWord: string;
-      translation: string;
-      translationDesc: string;
-    };
-  };
-  explanation: { addWord: string };
-}
-
 export const Index: React.FC = () => {
   const q = useStaticQuery(query);
 
@@ -60,11 +48,10 @@ export const Index: React.FC = () => {
 
   return (
     <div css={index.root}>
-      <div css={index.header}>
-        <h1 css={index.title}>{metadata.title}</h1>
-
-        <p css={index.explanation}>{metadata.explanation.addWord}</p>
-      </div>
+      <Header
+        title={metadata.title}
+        explanation={metadata.explanation.addWord}
+      />
 
       <div>
         <input
