@@ -9,6 +9,33 @@
 
 const axios = require('axios');
 
+function createCountryNode(createNode, createNodeId, createContentDigest, data) {
+  const node = {
+    data: data,
+    name: 'countries',
+    type: 'countryList',
+    id: createNodeId(`countryList`),
+    internal: {
+      type: "countryList",
+      contentDigest: createContentDigest(data),
+    },
+  }
+
+  createNode(node);
+}
+
+async function getCountries() {
+  const countries = await axios.get('https://restcountries.eu/rest/v2/all');
+
+  return countries.data.map(c => {
+    return {
+      alpha2Code: c.alpha2Code,
+      alpha3Code: c.alpha3Code,
+      name: c.name,
+    }
+  });
+}
+
 /**
  * Create a node with a list of countries as an array
  * [
@@ -22,29 +49,26 @@ const axios = require('axios');
  * @param actions
  * @returns {Promise<void>}
  */
-exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => {
-  const get = axios.get('https://restcountries.eu/rest/v2/all');
+exports.sourceNodes = async ({ actions, createNodeId, createContentDigest, cache }) => {
+  const cacheKey = "countryList"
+  let obj = await cache.get(cacheKey);
 
-  get.then((countries) => {
-    const filtered = countries.data.map(c => {
-      return {
-        alpha2Code: c.alpha2Code,
-        alpha3Code: c.alpha3Code,
-        name: c.name,
-      }
-    });
+  if (!obj) {
+    const countries = await getCountries();
+    await cache.set(cacheKey, countries);
 
-    const node = {
-      data: filtered,
-      name: 'countries',
-      type: 'countryList',
-      id: createNodeId(`countryList`),
-      internal: {
-        type: "countryList",
-        contentDigest: createContentDigest(filtered),
-      },
-    }
-
-    actions.createNode(node);
-  })
+    createCountryNode(
+      actions.createNode,
+      createNodeId,
+      createContentDigest,
+      countries
+    );
+  } else {
+    createCountryNode(
+      actions.createNode,
+      createNodeId,
+      createContentDigest,
+      obj
+    )
+  }
 }
