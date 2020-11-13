@@ -7,7 +7,9 @@ export interface TranslationBlockProps {
   translationPlaceholder: string;
   translationDescPlaceholder: string;
   id: number;
+  allowDelete: boolean;
   onChange: (value: ITranslation) => void;
+  onDelete: (id: number) => void;
 }
 
 export interface ITranslation {
@@ -19,7 +21,11 @@ export interface ITranslation {
 export const Translation: React.FC<TranslationBlockProps> = (
   props: TranslationBlockProps,
 ) => {
-  const { translationPlaceholder, translationDescPlaceholder } = props;
+  const {
+    translationPlaceholder,
+    translationDescPlaceholder,
+    allowDelete,
+  } = props;
 
   const [formValues, setFormValues] = useState<{
     translation: string;
@@ -41,6 +47,10 @@ export const Translation: React.FC<TranslationBlockProps> = (
     props.onChange({ ...temp, id: props.id } as ITranslation);
   };
 
+  const onDelete = () => {
+    props.onDelete(props.id);
+  };
+
   return (
     <div css={index.translation}>
       <input
@@ -58,7 +68,14 @@ export const Translation: React.FC<TranslationBlockProps> = (
         placeholder={translationDescPlaceholder}
       ></textarea>
 
-      <button css={[index.actionButton, index.removeButton]}>Remove</button>
+      {allowDelete && (
+        <button
+          onClick={onDelete}
+          css={[index.actionButton, index.removeButton]}
+        >
+          Remove
+        </button>
+      )}
     </div>
   );
 };

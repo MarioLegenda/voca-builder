@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Select from 'react-select';
 
 import { SelectOption } from '../contracts';
@@ -16,16 +16,32 @@ interface FormProps {
 }
 
 function createTranslationBlocks(
-  initial: number[],
+  initial: ITranslation[],
   translation: string,
   translationDesc: string,
   onTranslationChange: (value: ITranslation) => void,
+  onTranslationDelete: (id: number) => void,
 ) {
-  return initial.map((b, i) => (
+  if (initial.length === 1) {
+    return (
+      <Translation
+        allowDelete={false}
+        translationPlaceholder={translation}
+        translationDescPlaceholder={translationDesc}
+        id={initial[0].id}
+        onChange={onTranslationChange}
+        onDelete={onTranslationDelete}
+      />
+    );
+  }
+
+  return initial.map((b) => (
     <Translation
+      allowDelete={true}
+      onDelete={onTranslationDelete}
       onChange={onTranslationChange}
-      key={i}
-      id={i}
+      key={b.id}
+      id={b.id}
       translationPlaceholder={translation}
       translationDescPlaceholder={translationDesc}
     />
@@ -36,24 +52,31 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
   const { countries, formMetadata } = props;
   const { addWordPlaceholder, translation, translationDesc } = formMetadata;
 
-  const [translationBlocks, setTranslationBlocks] = useState([0]);
   const [word, setWord] = useState<string>('');
   const [toLanguage, setToLanguage] = useState<string>('');
   const [fromLanguage, setFromLanguage] = useState<string>('');
-  const [translations, setTranslations] = useState<ITranslation[]>([]);
+  const [translations, setTranslations] = useState<ITranslation[]>([
+    {
+      translation: '',
+      desc: '',
+      id: 0,
+    },
+  ]);
+
+  const counterRef = useRef<number>();
+
+  useEffect(() => {
+    counterRef.current = 0;
+  }, []);
 
   const addBlock = () => {
-    translationBlocks.push(translationBlocks.length + 1);
+    counterRef.current += 1;
+    const idx: number = counterRef.current;
+    const t: ITranslation = { translation: '', desc: '', id: idx };
 
-    setTranslationBlocks(() => [...translationBlocks]);
-  };
-
-  const removeBlock = (idx: number) => {
-    translationBlocks.splice(idx, 1);
-
-    setTranslationBlocks(() => [...translationBlocks]);
     const temp = [...translations];
-    temp.splice(idx, 1);
+
+    temp.push(t);
 
     setTranslations(temp);
   };
@@ -75,18 +98,27 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     setTranslations(temp);
   };
 
+  const onTranslationDelete = (id: number) => {
+    const temp = [...translations];
+
+    const idx: number = translations.findIndex((t) => t.id === id);
+
+    temp.splice(idx, 1);
+
+    setTranslations([...temp]);
+  };
+
   const selectStyles = {
     control: (base) => ({ ...base, border: '4px solid rgb(244, 237, 231)' }),
   };
 
   const tBlocks = createTranslationBlocks(
-    translationBlocks,
+    translations,
     translation,
     translationDesc,
     onTranslationChange,
+    onTranslationDelete,
   );
-
-  console.log(word, fromLanguage, toLanguage, translations);
 
   return (
     <div>
