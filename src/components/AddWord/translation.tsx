@@ -16,7 +16,7 @@ export interface ITranslation {
   id: number;
 }
 
-export const TranslationBlock: React.FC<TranslationBlockProps> = (
+export const Translation: React.FC<TranslationBlockProps> = (
   props: TranslationBlockProps,
 ) => {
   const { translationPlaceholder, translationDescPlaceholder } = props;
@@ -57,6 +57,8 @@ export const TranslationBlock: React.FC<TranslationBlockProps> = (
         css={form.textField}
         placeholder={translationDescPlaceholder}
       ></textarea>
+
+      <button css={[index.actionButton, index.removeButton]}>Remove</button>
     </div>
   );
 };

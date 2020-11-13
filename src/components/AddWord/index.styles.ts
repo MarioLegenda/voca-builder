@@ -66,4 +66,6 @@ export const primaryButton = css`
 
 export const removeButton = css`
   color: var(--color-error);
+  margin-top: var(--unit-px-base);
+  margin-left: var(--unit-px-base);
 `;

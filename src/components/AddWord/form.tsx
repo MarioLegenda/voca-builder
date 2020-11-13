@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { SelectOption } from '../contracts';
 import * as index from './index.styles';
 import { TextField } from './textField';
-import { ITranslation, TranslationBlock } from './translation';
+import { ITranslation, Translation } from './translation';
 
 interface FormProps {
   countries: SelectOption[];
@@ -22,7 +22,7 @@ function createTranslationBlocks(
   onTranslationChange: (value: ITranslation) => void,
 ) {
   return initial.map((b, i) => (
-    <TranslationBlock
+    <Translation
       onChange={onTranslationChange}
       key={i}
       id={i}
@@ -120,15 +120,6 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
       >
         Add
       </button>
-
-      {tBlocks.length > 1 && (
-        <button
-          onClick={removeBlock}
-          css={[index.actionButton, index.removeButton]}
-        >
-          Remove
-        </button>
-      )}
     </div>
   );
 };
