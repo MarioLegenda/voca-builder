@@ -27,16 +27,17 @@ function createTranslationBlocks(
   onTranslationDelete: (id: number) => void,
 ): JSX.Element[] | JSX.Element {
   if (initial.length === 1) {
-    return (
+    return [
       <Translation
         allowDelete={false}
         translationPlaceholder={translation}
         translationDescPlaceholder={translationDesc}
+        key={initial[0].id}
         id={initial[0].id}
         onChange={onTranslationChange}
         onDelete={onTranslationDelete}
-      />
-    );
+      />,
+    ];
   }
 
   return initial.map((b) => (
@@ -127,11 +128,11 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
 
     temp[value.id] = value;
 
-    setTranslations([...temp]);
+    setTranslations(() => {
+      return [...temp];
+    });
 
-    console.log(temp);
-
-    setFormValid(isFormValid(word, fromLanguage, toLanguage, temp));
+    //setFormValid(isFormValid(word, fromLanguage, toLanguage, temp));
   };
 
   const onTranslationDelete = (id: number) => {
@@ -158,6 +159,8 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     onTranslationDelete,
   );
 
+  console.log(translations);
+
   return (
     <div>
       <TextField onChange={onTextChange} placeholder={addWordPlaceholder} />
@@ -175,7 +178,8 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
       <p css={index.explanation}>
         * You can have any number of translations you like, but one is mandatory. Translations that are blank will be skipped and not saved.
       </p>
-      <div>{tBlocks}</div>
+
+      {tBlocks}
 
       <button onClick={addBlock} css={[index.actionButton, index.primaryButton]}>
         Add
