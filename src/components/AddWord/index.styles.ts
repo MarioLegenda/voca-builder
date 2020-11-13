@@ -41,8 +41,7 @@ export const translation = css`
 
 export function blockSeparator(unit: number): SerializedStyles {
   return css`
-    margin: calc(var(--unit-px-base) * ${unit})
-      calc(var(--unit-px-base) * ${unit});
+    margin: calc(var(--unit-px-base) * ${unit}) calc(var(--unit-px-base) * ${unit});
   `;
 }
 

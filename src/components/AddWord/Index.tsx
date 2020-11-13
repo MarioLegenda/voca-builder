@@ -1,9 +1,8 @@
 import { graphql, useStaticQuery } from 'gatsby';
-import React from 'react';
+import React, { MutableRefObject, RefObject, useEffect, useRef, useState } from 'react';
 
-import { IAddWordMetadata } from '../contracts';
+import { IAddWordMetadata, Word } from '../contracts';
 import { useCountries } from '../hooks';
-import * as form from './../styles/form.styles';
 import { Form } from './form';
 import { Header } from './header';
 import * as index from './index.styles';
@@ -37,6 +36,8 @@ const query = graphql`
 `;
 
 export const Index: React.FC = () => {
+  const [word, setWord] = useState<Word>(null);
+
   const q = useStaticQuery(query);
 
   const metadata: IAddWordMetadata = q.metadataJson.add_word;
@@ -48,18 +49,13 @@ export const Index: React.FC = () => {
     translationDesc: metadata.form.placeholders.translationDesc,
   };
 
+  //const wordRepositoryRef = useRef<WordRepository>(new WordRepository());
+
   return (
     <div css={index.root}>
-      <Header
-        title={metadata.title}
-        explanation={metadata.explanation.addWord}
-      />
+      <Header title={metadata.title} explanation={metadata.explanation.addWord} />
 
       <Form countries={countries} formMetadata={formMetadata} />
-
-      <button disabled css={form.saveButton}>
-        SAVE
-      </button>
     </div>
   );
 };

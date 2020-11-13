@@ -1,6 +1,5 @@
-
 import { Http } from "../http/Http"
 
-export default class CommonRepository {
+export default class BaseHttpRepository {
     constructor(protected http: Http) {}
 }

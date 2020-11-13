@@ -18,18 +18,19 @@ export const error = css`
 export const saveButton = css`
   margin: calc(var(--unit-px-base) * 10) 0 0 auto;
   display: inline-block;
-  margin-left: auto;
+  margin-right: auto;
   padding: calc(var(--unit-px-base) * 3);
   border-radius: var(--unit-px-base);
 
   color: white;
-  background-color: var(--color-background);
   font-weight: bolder;
+  background-color: var(--color-primary);
   font-size: var(--base-font-size-em);
 
   cursor: pointer;
 
   :disabled {
     cursor: not-allowed;
+    background-color: var(--color-background);
   }
 `;

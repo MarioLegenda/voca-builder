@@ -27,17 +27,9 @@ export const TextField: React.FC<{
 
   return (
     <>
-      <input
-        css={form.textField}
-        name="addWord"
-        onChange={(e) => onChange(e.target.value)}
-        type="text"
-        placeholder={placeholder}
-      />
+      <input css={form.textField} name="addWord" onChange={(e) => onChange(e.target.value)} type="text" placeholder={placeholder} />
 
-      {errors.includes('required') && (
-        <p css={form.error}>A word to translate is required</p>
-      )}
+      {errors.includes('required') && <p css={form.error}>A word to translate is required</p>}
     </>
   );
 };

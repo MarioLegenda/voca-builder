@@ -15,3 +15,15 @@ export interface SelectOption {
   value: string;
   label: string;
 }
+
+export interface SingleTranslation {
+  word: string,
+  desc: string,
+}
+
+export interface Word {
+  word: string,
+  fromLanguage: string,
+  toLanguage: string,
+  translations: Translation[],
+}

@@ -3,6 +3,7 @@
   "singleQuote": true,
   "prettier.jsxBracketSameLine": true,
   "trailingComma": "all",
+  "printWidth": 150,
   "overrides": [
     {
       "files": ["*.js", "*.tsx", "*.ts", "*.json", "*.yml", ".prettierrc"],
