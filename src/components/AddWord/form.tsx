@@ -1,13 +1,10 @@
-import React, { Dispatch, useState } from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 
-import { Country } from '../../app/http/model/Country';
-import MinLength from '../../app/validation/constraints/MinLength';
-import Required from '../../app/validation/constraints/Required';
-import ConstraintProcessor from '../../app/validation/ContraintProcessor';
 import { SelectOption } from '../contracts';
-import * as form from '../styles/form.styles';
 import * as index from './index.styles';
+import { TextField } from './textField';
+import { ITranslation, TranslationBlock } from './translation';
 
 interface FormProps {
   countries: SelectOption[];
@@ -16,19 +13,6 @@ interface FormProps {
     translation: string;
     translationDesc: string;
   };
-}
-
-interface TranslationBlockProps {
-  translationPlaceholder: string;
-  translationDescPlaceholder: string;
-  id: number;
-  onChange: (value: ITranslation) => void;
-}
-
-interface ITranslation {
-  translation: string;
-  desc: string;
-  id: number;
 }
 
 function createTranslationBlocks(
@@ -47,89 +31,6 @@ function createTranslationBlocks(
     />
   ));
 }
-
-const TranslationBlock: React.FC<TranslationBlockProps> = (
-  props: TranslationBlockProps,
-) => {
-  const { translationPlaceholder, translationDescPlaceholder } = props;
-
-  const [formValues, setFormValues] = useState<{
-    translation: string;
-    desc: string;
-  }>({
-    translation: '',
-    desc: '',
-  });
-
-  const onChange = (type: string, value: string) => {
-    const temp = { ...formValues };
-
-    setFormValues(() => {
-      temp[type] = value;
-
-      return temp;
-    });
-
-    props.onChange({ ...temp, id: props.id } as ITranslation);
-  };
-
-  return (
-    <div css={index.translation}>
-      <input
-        onChange={(e) => onChange('translation', e.target.value)}
-        css={form.textField}
-        type="text"
-        placeholder={translationPlaceholder}
-      />
-
-      <div css={index.blockSeparator(2)} />
-
-      <textarea
-        onChange={(e) => onChange('translation', e.target.value)}
-        css={form.textField}
-        placeholder={translationDescPlaceholder}
-      ></textarea>
-    </div>
-  );
-};
-
-const TextField: React.FC<{
-  placeholder: string;
-  onChange: (value: string) => void;
-}> = (props: { placeholder: string; onChange: (value: string) => void }) => {
-  const { placeholder } = props;
-
-  const [errors, setErrors] = useState([]);
-
-  const onChange = (value: string) => {
-    const cp: ConstraintProcessor = new ConstraintProcessor();
-    cp.add(new Required());
-
-    const validated: string[] = cp.validate(value);
-
-    if (validated.length > 0) {
-      return setErrors(cp.validate(value as string[]));
-    }
-
-    props.onChange(value);
-  };
-
-  return (
-    <>
-      <input
-        css={form.textField}
-        name="addWord"
-        onChange={(e) => onChange(e.target.value)}
-        type="text"
-        placeholder={placeholder}
-      />
-
-      {errors.includes('required') && (
-        <p css={form.error}>A word to translate is required</p>
-      )}
-    </>
-  );
-};
 
 export const Form: React.FC<FormProps> = (props: FormProps) => {
   const { countries, formMetadata } = props;

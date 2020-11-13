@@ -3,11 +3,11 @@ import IConstraint from './constraints/IConstraint';
 export default class ConstraintProcessor {
   constructor(private constraints: IConstraint[] = []) {}
 
-  add(constraint) {
+  add(constraint: IConstraint): void {
     this.constraints.push(constraint);
   }
 
-  validate(val): string[] {
+  validate(val: string | number | boolean): string[] {
     const validations: string[] = [];
 
     for (const c of this.constraints) {

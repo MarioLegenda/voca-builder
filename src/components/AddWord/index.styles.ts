@@ -1,4 +1,4 @@
-import { css } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/core';
 
 export const root = css`
   background-color: white;
@@ -39,7 +39,7 @@ export const translation = css`
   }
 `;
 
-export function blockSeparator(unit: number) {
+export function blockSeparator(unit: number): SerializedStyles {
   return css`
     margin: calc(var(--unit-px-base) * ${unit})
       calc(var(--unit-px-base) * ${unit});
