@@ -189,11 +189,9 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     }
   };
 
-  const saveWord = (word: Word) => {
+  const saveWord = () => {
     setSaving(true);
-    wordRepository.saveWord(word).then(() => {
-      console.log('DONE');
-
+    wordRepository.saveWord(createWordModel(word, fromLanguage, toLanguage, translations)).then(() => {
       setSaving(false);
     });
   };
@@ -235,7 +233,7 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
         Add
       </button>
 
-      <button onClick={saveWord} disabled={!formValid && !saving} css={form.saveButton}>
+      <button onClick={saveWord} disabled={!formValid || saving} css={form.saveButton}>
         SAVE
       </button>
     </div>
