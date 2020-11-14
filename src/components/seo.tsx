@@ -10,7 +10,16 @@ import { PropTypes } from 'prop-types';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-const SEO: React.FC = ({ children, description, lang, meta, title }) => {
+interface Props {
+  description: string;
+  lang: string;
+  meta: { name: string; content: string };
+  title: string;
+}
+
+const SEO: React.FC<Props> = (props: Props) => {
+  const { description, lang, meta, title } = props;
+
   const { site } = useStaticQuery(
     graphql`
       query {

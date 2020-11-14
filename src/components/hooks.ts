@@ -1,4 +1,4 @@
-import { Ref, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Country } from '../app/http/model/Country';
 import { IRepository, SelectOption } from './contracts';

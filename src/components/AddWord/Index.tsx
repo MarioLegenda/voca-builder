@@ -1,9 +1,8 @@
 import { graphql, useStaticQuery } from 'gatsby';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 
-import WordRepository from '../../app/repository/WordRepository';
-import { IAddWordMetadata, IRepository, Word } from '../contracts';
-import { useCountries, useRepositoryContainer } from '../hooks';
+import { IAddWordMetadata } from '../contracts';
+import { useCountries } from '../hooks';
 import { Form } from './form';
 import { Header } from './header';
 import * as index from './index.styles';

@@ -1,4 +1,4 @@
-import IConstraint from './constraints/IConstraint';
+import IConstraint, { ConstraintValue } from './constraints/IConstraint';
 
 export default class ConstraintProcessor {
   constructor(private constraints: IConstraint[] = []) {}
@@ -7,7 +7,7 @@ export default class ConstraintProcessor {
     this.constraints.push(constraint);
   }
 
-  validate(val: string | number | boolean): string[] {
+  validate(val: ConstraintValue): string[] {
     const validations: string[] = [];
 
     for (const c of this.constraints) {
