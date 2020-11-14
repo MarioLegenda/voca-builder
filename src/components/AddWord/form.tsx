@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Select from 'react-select';
 
+import WordRepository from '../../app/repository/WordRepository';
 import Required from '../../app/validation/constraints/Required';
 import ConstraintProcessor from '../../app/validation/ContraintProcessor';
 import { SelectOption, Word } from '../contracts';
+import { useRepositoryContainer } from '../hooks';
 import * as form from '../styles/form.styles';
 import * as index from './index.styles';
+import { lastTranslation } from './index.styles';
 import { TextField } from './textField';
 import { IFormTranslation, Translation } from './translation';
 
@@ -16,7 +19,6 @@ interface FormProps {
     translation: string;
     translationDesc: string;
   };
-  onFormValid: (word: Word) => void;
 }
 
 function createTranslationBlocks(
@@ -82,6 +84,9 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
   const { countries, formMetadata } = props;
   const { addWordPlaceholder, translation, translationDesc } = formMetadata;
 
+  const wordRepository = useRepositoryContainer<WordRepository>('wordRepository', new WordRepository());
+
+  const [saving, setSaving] = useState(false);
   const [word, setWord] = useState<string>('');
   const [toLanguage, setToLanguage] = useState<string>('');
   const [fromLanguage, setFromLanguage] = useState<string>('');
@@ -155,18 +160,6 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     setErrors([]);
   };
 
-  const onLanguageChange = (value, type) => {
-    if (type === 'fromLanguage') {
-      setFromLanguage(value);
-      setFormValid(isFormValid(word, value, toLanguage, translations));
-    }
-
-    if (type === 'toLanguage') {
-      setToLanguage(value);
-      setFormValid(isFormValid(word, fromLanguage, value, translations));
-    }
-  };
-
   const onTranslationChange = (value: IFormTranslation) => {
     const temp: IFormTranslation[] = [...translations];
 
@@ -196,8 +189,13 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     }
   };
 
-  const onFormValid = () => {
-    props.onFormValid(createWordModel(word, fromLanguage, toLanguage, translations));
+  const saveWord = (word: Word) => {
+    setSaving(true);
+    wordRepository.saveWord(word).then(() => {
+      console.log('DONE');
+
+      setSaving(false);
+    });
   };
 
   const selectStyles = {
@@ -231,13 +229,13 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
         * You can have any number of translations you like, but one is mandatory. Translations that are blank will be skipped and not saved.
       </p>
 
-      {tBlocks}
+      <div css={lastTranslation}>{tBlocks}</div>
 
       <button onClick={addBlock} css={[index.actionButton, index.primaryButton]}>
         Add
       </button>
 
-      <button onClick={onFormValid} disabled={!formValid} css={form.saveButton}>
+      <button onClick={saveWord} disabled={!formValid && !saving} css={form.saveButton}>
         SAVE
       </button>
     </div>

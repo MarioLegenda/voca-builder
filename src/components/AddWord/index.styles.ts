@@ -33,8 +33,10 @@ export const twoRowGrid = css`
 
 export const translation = css`
   margin-bottom: calc(var(--unit-px-base) * 10);
+`;
 
-  :last-child {
+export const lastTranslation = css`
+  div:last-child {
     margin-bottom: calc(var(--unit-px-base));
   }
 `;

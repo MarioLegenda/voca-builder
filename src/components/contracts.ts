@@ -27,3 +27,6 @@ export interface Word {
   toLanguage: string,
   translations: Translation[],
 }
+
+// only designed to make something a repository for ref hook containers
+export interface IRepository {}
