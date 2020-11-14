@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Select from 'react-select';
 
 import WordRepository from '../../app/repository/WordRepository';
+import NotEqual from '../../app/validation/constraints/NotEqual';
 import Required from '../../app/validation/constraints/Required';
 import ConstraintProcessor from '../../app/validation/ContraintProcessor';
 import { SelectOption, Word } from '../contracts';
@@ -142,22 +143,14 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     setFromLanguage(value);
     setFormValid(isFormValid(word, value, toLanguage, translations));
 
-    if (toLanguage === value) {
-      return setErrors(['equal']);
-    }
-
-    setErrors([]);
+    setErrors(new ConstraintProcessor([new NotEqual(value)]).validate(toLanguage));
   };
 
   const onToLanguage = (value: string) => {
     setToLanguage(value);
     setFormValid(isFormValid(word, fromLanguage, value, translations));
 
-    if (fromLanguage === value) {
-      return setErrors(['equal']);
-    }
-
-    setErrors([]);
+    setErrors(new ConstraintProcessor([new NotEqual(value)]).validate(fromLanguage));
   };
 
   const onTranslationChange = (value: IFormTranslation) => {
@@ -168,7 +161,6 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     temp[idx] = value;
 
     setTranslations(temp);
-
     setFormValid(isFormValid(word, fromLanguage, toLanguage, temp));
   };
 
