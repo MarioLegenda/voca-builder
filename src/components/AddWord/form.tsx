@@ -53,10 +53,10 @@ function createTranslationBlocks(
   ));
 }
 
-function isFormValid(word: string, toLanguage: string, fromLanguage: string, translations: IFormTranslation[]): boolean {
+function isFormValid(word: string, fromLanguage: string, toLanguage: string, translations: IFormTranslation[]): boolean {
   const cp = new ConstraintProcessor([new Required()]);
 
-  const valid = [word, toLanguage, fromLanguage].every((b) => cp.validate(b).length === 0);
+  const valid = [word, fromLanguage, toLanguage].every((b) => cp.validate(b).length === 0);
 
   if (!valid) {
     return false;
@@ -90,6 +90,13 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
       id: 0,
     },
   ]);
+  const [translationBlocks, setTranslationBlocks] = useState<IFormTranslation[]>([
+    {
+      translation: '',
+      desc: '',
+      id: 0,
+    },
+  ]);
   const [formValid, setFormValid] = useState(false);
 
   const counterRef = useRef<number>();
@@ -101,13 +108,20 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
   const addBlock = () => {
     counterRef.current += 1;
     const idx: number = counterRef.current;
-    const t: IFormTranslation = { translation: '', desc: '', id: idx };
 
-    const temp = [...translations];
+    {
+      const t: IFormTranslation = { translation: '', desc: '', id: idx };
+      const temp = [...translationBlocks];
+      temp.push(t);
+      setTranslationBlocks(temp);
+    }
 
-    temp.push(t);
-
-    setTranslations(temp);
+    {
+      const t: IFormTranslation = { translation: '', desc: '', id: idx };
+      const temp = [...translations];
+      temp.push(t);
+      setTranslations(temp);
+    }
   };
 
   const onTextChange = (value: string) => {
@@ -117,34 +131,43 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
   };
 
   const onLanguageChange = (value, type) => {
-    if (type === 'fromLanguage') setFromLanguage(value);
-    if (type === 'toLanguage') setToLanguage(value);
-
-    setFormValid(isFormValid(word, fromLanguage, toLanguage, translations));
+    if (type === 'fromLanguage') {
+      setFromLanguage(value);
+      setFormValid(isFormValid(word, value, toLanguage, translations));
+    }
+    if (type === 'toLanguage') {
+      setToLanguage(value);
+      setFormValid(isFormValid(word, fromLanguage, value, translations));
+    }
   };
 
   const onTranslationChange = (value: IFormTranslation) => {
     const temp: IFormTranslation[] = [...translations];
 
-    temp[value.id] = value;
+    const idx: number = temp.findIndex((t) => t.id === value.id);
 
-    setTranslations(() => {
-      return [...temp];
-    });
+    temp[idx] = value;
 
-    //setFormValid(isFormValid(word, fromLanguage, toLanguage, temp));
+    setTranslations(temp);
+
+    setFormValid(isFormValid(word, fromLanguage, toLanguage, temp));
   };
 
   const onTranslationDelete = (id: number) => {
-    const temp = [...translations];
+    {
+      const temp = [...translations];
+      const idx: number = translations.findIndex((t) => t.id === id);
+      temp.splice(idx, 1);
+      setTranslations([...temp]);
+      setFormValid(isFormValid(word, fromLanguage, toLanguage, temp));
+    }
 
-    const idx: number = translations.findIndex((t) => t.id === id);
-
-    temp.splice(idx, 1);
-
-    setTranslations([...temp]);
-
-    setFormValid(isFormValid(word, fromLanguage, toLanguage, translations));
+    {
+      const temp = [...translationBlocks];
+      const idx: number = translationBlocks.findIndex((t) => t.id === id);
+      temp.splice(idx, 1);
+      setTranslationBlocks([...temp]);
+    }
   };
 
   const selectStyles = {
@@ -152,14 +175,12 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
   };
 
   const tBlocks: JSX.Element[] | JSX.Element = createTranslationBlocks(
-    translations,
+    translationBlocks,
     translation,
     translationDesc,
     onTranslationChange,
     onTranslationDelete,
   );
-
-  console.log(translations);
 
   return (
     <div>

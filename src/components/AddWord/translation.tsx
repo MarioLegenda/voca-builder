@@ -30,15 +30,12 @@ export const Translation: React.FC<TranslationBlockProps> = (props: TranslationB
   });
 
   const onChange = (type: string, value: string) => {
-    setFormValues(() => {
-      const temp = { ...formValues };
+    const temp = { ...formValues };
+    temp[type] = value;
 
-      temp[type] = value;
+    setFormValues(temp);
 
-      props.onChange({ ...temp, id: props.id } as IFormTranslation);
-
-      return temp;
-    });
+    props.onChange({ ...temp, id: props.id } as IFormTranslation);
   };
 
   const onDelete = () => {

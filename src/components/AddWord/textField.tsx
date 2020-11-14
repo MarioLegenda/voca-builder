@@ -16,11 +16,7 @@ export const TextField: React.FC<{
     const cp: ConstraintProcessor = new ConstraintProcessor();
     cp.add(new Required());
 
-    const validated: string[] = cp.validate(value);
-
-    if (validated.length > 0) {
-      return setErrors(cp.validate(value));
-    }
+    setErrors(cp.validate(value));
 
     props.onChange(value);
   };
