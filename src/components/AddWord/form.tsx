@@ -62,6 +62,8 @@ function isFormValid(word: string, fromLanguage: string, toLanguage: string, tra
     return false;
   }
 
+  if (fromLanguage === toLanguage) return false;
+
   return translations.some((t) => cp.validate(t.translation).length === 0);
 }
 
@@ -98,6 +100,7 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     },
   ]);
   const [formValid, setFormValid] = useState(false);
+  const [errors, setErrors] = useState<string[]>([]);
 
   const counterRef = useRef<number>();
 
@@ -130,11 +133,34 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     setFormValid(isFormValid(word, fromLanguage, toLanguage, translations));
   };
 
+  const onFromLanguage = (value: string) => {
+    setFromLanguage(value);
+    setFormValid(isFormValid(word, value, toLanguage, translations));
+
+    if (toLanguage === value) {
+      return setErrors(['equal']);
+    }
+
+    setErrors([]);
+  };
+
+  const onToLanguage = (value: string) => {
+    setToLanguage(value);
+    setFormValid(isFormValid(word, fromLanguage, value, translations));
+
+    if (fromLanguage === value) {
+      return setErrors(['equal']);
+    }
+
+    setErrors([]);
+  };
+
   const onLanguageChange = (value, type) => {
     if (type === 'fromLanguage') {
       setFromLanguage(value);
       setFormValid(isFormValid(word, value, toLanguage, translations));
     }
+
     if (type === 'toLanguage') {
       setToLanguage(value);
       setFormValid(isFormValid(word, fromLanguage, value, translations));
@@ -170,6 +196,10 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     }
   };
 
+  const onFormValid = () => {
+    props.onFormValid(createWordModel(word, fromLanguage, toLanguage, translations));
+  };
+
   const selectStyles = {
     control: (base) => ({ ...base, border: '4px solid rgb(244, 237, 231)' }),
   };
@@ -189,10 +219,11 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
       <div css={index.blockSeparator(5)} />
 
       <div css={index.twoRowGrid}>
-        <Select onChange={(v) => onLanguageChange(v, 'fromLanguage')} options={countries} styles={selectStyles} placeholder="From language" />
+        <Select onChange={(v) => onFromLanguage(v)} options={countries} styles={selectStyles} placeholder="From language" />
 
-        <Select onChange={(v) => onLanguageChange(v, 'toLanguage')} options={countries} styles={selectStyles} placeholder="To language" />
+        <Select onChange={(v) => onToLanguage(v)} options={countries} styles={selectStyles} placeholder="To language" />
       </div>
+      {errors.includes('equal') && <p css={form.error}>From and to languages cannot be the same language</p>}
 
       <div css={index.blockSeparator(15)} />
 
@@ -206,7 +237,7 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
         Add
       </button>
 
-      <button disabled={!formValid} css={form.saveButton}>
+      <button onClick={onFormValid} disabled={!formValid} css={form.saveButton}>
         SAVE
       </button>
     </div>
