@@ -4,8 +4,6 @@ import * as form from '../styles/form.styles';
 import * as index from './index.styles';
 
 export interface TranslationBlockProps {
-  translationPlaceholder: string;
-  translationDescPlaceholder: string;
   id: number;
   allowDelete: boolean;
   onChange: (value: IFormTranslation) => void;
@@ -19,7 +17,7 @@ export interface IFormTranslation {
 }
 
 export const Translation: React.FC<TranslationBlockProps> = (props: TranslationBlockProps) => {
-  const { translationPlaceholder, translationDescPlaceholder, allowDelete } = props;
+  const { allowDelete } = props;
 
   const [formValues, setFormValues] = useState<{
     translation: string;
@@ -44,11 +42,11 @@ export const Translation: React.FC<TranslationBlockProps> = (props: TranslationB
 
   return (
     <div css={index.translation}>
-      <input onChange={(e) => onChange('translation', e.target.value)} css={form.textField} type="text" placeholder={translationPlaceholder} />
+      <input onChange={(e) => onChange('translation', e.target.value)} css={form.textField} type="text" placeholder="Your translation" />
 
       <div css={index.blockSeparator(2)} />
 
-      <textarea onChange={(e) => onChange('desc', e.target.value)} css={form.textField} placeholder={translationDescPlaceholder}></textarea>
+      <textarea onChange={(e) => onChange('desc', e.target.value)} css={form.textField} placeholder="Translation description"></textarea>
 
       {allowDelete && (
         <button onClick={onDelete} css={[index.actionButton, index.removeButton]}>

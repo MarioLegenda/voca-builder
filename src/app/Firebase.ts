@@ -18,7 +18,7 @@ class Firebase {
 
     firebase.initializeApp(firebaseConfig);
 
-    this.firebase = firebase;
+    this.firebase = firebase.firebase;
     this.database = firebase.database();
   }
 }

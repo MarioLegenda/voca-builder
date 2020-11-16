@@ -15,45 +15,18 @@ import { IFormTranslation, Translation } from './translation';
 
 interface FormProps {
   countries: SelectOption[];
-  formMetadata: {
-    addWordPlaceholder: string;
-    translation: string;
-    translationDesc: string;
-  };
 }
 
 function createTranslationBlocks(
   initial: IFormTranslation[],
-  translation: string,
-  translationDesc: string,
   onTranslationChange: (value: IFormTranslation) => void,
   onTranslationDelete: (id: number) => void,
 ): JSX.Element[] | JSX.Element {
   if (initial.length === 1) {
-    return [
-      <Translation
-        allowDelete={false}
-        translationPlaceholder={translation}
-        translationDescPlaceholder={translationDesc}
-        key={initial[0].id}
-        id={initial[0].id}
-        onChange={onTranslationChange}
-        onDelete={onTranslationDelete}
-      />,
-    ];
+    return [<Translation allowDelete={false} key={initial[0].id} id={initial[0].id} onChange={onTranslationChange} onDelete={onTranslationDelete} />];
   }
 
-  return initial.map((b) => (
-    <Translation
-      allowDelete={true}
-      onDelete={onTranslationDelete}
-      onChange={onTranslationChange}
-      key={b.id}
-      id={b.id}
-      translationPlaceholder={translation}
-      translationDescPlaceholder={translationDesc}
-    />
-  ));
+  return initial.map((b) => <Translation allowDelete={true} onDelete={onTranslationDelete} onChange={onTranslationChange} key={b.id} id={b.id} />);
 }
 
 function isFormValid(word: string, fromLanguage: string, toLanguage: string, translations: IFormTranslation[]): boolean {
@@ -82,8 +55,7 @@ function createWordModel(word: string, fromLanguage: string, toLanguage: string,
 }
 
 export const Form: React.FC<FormProps> = (props: FormProps) => {
-  const { countries, formMetadata } = props;
-  const { addWordPlaceholder, translation, translationDesc } = formMetadata;
+  const { countries } = props;
 
   const wordRepository = useRepositoryContainer<WordRepository>('wordRepository', new WordRepository());
 
@@ -192,17 +164,11 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     control: (base) => ({ ...base, border: '4px solid rgb(244, 237, 231)' }),
   };
 
-  const tBlocks: JSX.Element[] | JSX.Element = createTranslationBlocks(
-    translationBlocks,
-    translation,
-    translationDesc,
-    onTranslationChange,
-    onTranslationDelete,
-  );
+  const tBlocks: JSX.Element[] | JSX.Element = createTranslationBlocks(translationBlocks, onTranslationChange, onTranslationDelete);
 
   return (
     <div>
-      <TextField onChange={onTextChange} placeholder={addWordPlaceholder} />
+      <TextField onChange={onTextChange} />
 
       <div css={index.blockSeparator(5)} />
 
