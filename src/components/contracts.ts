@@ -17,16 +17,17 @@ export interface SelectOption {
 }
 
 export interface SingleTranslation {
-  word: string,
-  desc: string,
+  word: string;
+  desc: string;
 }
 
 export interface Word {
-  word: string,
-  fromLanguage: string,
-  toLanguage: string,
-  translations: Translation[],
+  id?: string;
+  word: string;
+  fromLanguage: string;
+  toLanguage: string;
+  translations: SingleTranslation[];
 }
 
 // only designed to make something a repository for ref hook containers
-export interface IRepository {}
+export interface Repository {}

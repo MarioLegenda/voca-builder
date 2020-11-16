@@ -1,4 +1,4 @@
-import { Country } from "../http/model/Country"
+import { Country } from '../http/model/Country';
 
 export default class LocalStorage {
   private storageEnabled: boolean = false;

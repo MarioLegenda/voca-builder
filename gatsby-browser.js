@@ -10,14 +10,11 @@ import React from 'react';
 import { Global } from '@emotion/core';
 import { global } from './src/style/index';
 import { normalize } from './src/style/normalize.styles';
-import Layout from "./src/components/layout"
+import Layout from './src/components/layout';
 
 export const wrapRootElement = ({ element }) => (
   <>
     <Global styles={[global, normalize]} />
-    <Layout>
-      {element}
-    </Layout>
+    <Layout>{element}</Layout>
   </>
 );
-

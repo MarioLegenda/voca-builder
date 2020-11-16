@@ -1,5 +1,7 @@
+import { navigate } from '@reach/router';
 import React, { useEffect, useRef, useState } from 'react';
 import Select from 'react-select';
+import slugify from 'slugify';
 
 import WordRepository from '../../app/repository/WordRepository';
 import NotEqual from '../../app/validation/constraints/NotEqual';
@@ -157,6 +159,7 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     setSaving(true);
     wordRepository.saveWord(createWordModel(word, fromLanguage, toLanguage, translations)).then(() => {
       setSaving(false);
+      navigate('/word/some-id/some-word');
     });
   };
 

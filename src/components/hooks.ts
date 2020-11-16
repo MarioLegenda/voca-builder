@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { Country } from '../app/http/model/Country';
-import { IRepository, SelectOption } from './contracts';
+import { Repository, SelectOption } from './contracts';
 
 export function useCountries(initial: Country[]): SelectOption[] {
   const [countries, setCountries] = useState([]);
@@ -21,16 +21,13 @@ export function useCountries(initial: Country[]): SelectOption[] {
 }
 
 // EXPERIMENTAL
-export function useRepositoryContainer<T>(key: string, repository: IRepository): T {
-  const containerRef = useRef({});
+export function useRepositoryContainer<T>(key: string, repository: Repository): T {
+  const containerRef = useRef<Repository>({});
+
+  console.log('REPOSITORY ENTERED');
 
   useEffect(() => {
-    containerRef.current = {};
-
-    return () => (containerRef.current = null);
-  }, []);
-
-  useEffect(() => {
+    console.log('REPOSITORY CREATED');
     containerRef.current[key] = repository;
   }, [key, repository]);
 

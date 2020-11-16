@@ -6,8 +6,8 @@
 
 // You can delete this file if you're not using it
 
-
 const axios = require('axios');
+const path = require('path');
 
 function createCountryNode(createNode, createNodeId, createContentDigest, data) {
   const node = {
@@ -16,10 +16,10 @@ function createCountryNode(createNode, createNodeId, createContentDigest, data) 
     type: 'countryList',
     id: createNodeId(`countryList`),
     internal: {
-      type: "countryList",
+      type: 'countryList',
       contentDigest: createContentDigest(data),
     },
-  }
+  };
 
   createNode(node);
 }
@@ -27,12 +27,12 @@ function createCountryNode(createNode, createNodeId, createContentDigest, data) 
 async function getCountries() {
   const countries = await axios.get('https://restcountries.eu/rest/v2/all');
 
-  return countries.data.map(c => {
+  return countries.data.map((c) => {
     return {
       alpha2Code: c.alpha2Code,
       alpha3Code: c.alpha3Code,
       name: c.name,
-    }
+    };
   });
 }
 
@@ -50,25 +50,28 @@ async function getCountries() {
  * @returns {Promise<void>}
  */
 exports.sourceNodes = async ({ actions, createNodeId, createContentDigest, cache }) => {
-  const cacheKey = "countryList"
+  const cacheKey = 'countryList';
   let obj = await cache.get(cacheKey);
 
   if (!obj) {
     const countries = await getCountries();
     await cache.set(cacheKey, countries);
 
-    createCountryNode(
-      actions.createNode,
-      createNodeId,
-      createContentDigest,
-      countries
-    );
+    createCountryNode(actions.createNode, createNodeId, createContentDigest, countries);
   } else {
-    createCountryNode(
-      actions.createNode,
-      createNodeId,
-      createContentDigest,
-      obj
-    )
+    createCountryNode(actions.createNode, createNodeId, createContentDigest, obj);
+  }
+};
+
+exports.onCreatePage = async ({ page, actions }) => {
+  const { createPage } = actions
+
+  // page.matchPath is a special key that's used for matching pages
+  // only on the client.
+  if (page.path.match(/^\/word/)) {
+    page.matchPath = "/word/:id/:name"
+
+    // Update the page.
+    createPage(page)
   }
 }

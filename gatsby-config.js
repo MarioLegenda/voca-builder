@@ -41,12 +41,5 @@ module.exports = {
     },
     `gatsby-plugin-emotion`,
     `gatsby-transformer-json`,
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `metadata`,
-        path: `${__dirname}/src/metadata/`,
-      },
-    },
   ],
-}
+};

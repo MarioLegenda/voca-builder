@@ -1,5 +1,5 @@
-import { Http } from "../http/Http"
+import { Http } from '../http/Http';
 
 export default class BaseHttpRepository {
-    constructor(protected http: Http) {}
+  constructor(protected http: Http) {}
 }
