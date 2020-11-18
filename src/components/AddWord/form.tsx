@@ -1,14 +1,11 @@
-import { navigate } from '@reach/router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import Select from 'react-select';
-import slugify from 'slugify';
 
-import WordRepository from '../../app/repository/WordRepository';
+import { saveWord } from '../../app/repository/wordRepository';
 import NotEqual from '../../app/validation/constraints/NotEqual';
 import Required from '../../app/validation/constraints/Required';
 import ConstraintProcessor from '../../app/validation/ContraintProcessor';
-import { SelectOption, Word } from '../contracts';
-import { useRepositoryContainer } from '../hooks';
+import { LanguageOption, SelectOption, Word } from '../contracts';
 import * as form from '../styles/form.styles';
 import * as index from './index.styles';
 import { lastTranslation } from './index.styles';
@@ -59,8 +56,6 @@ function createWordModel(word: string, fromLanguage: string, toLanguage: string,
 export const Form: React.FC<FormProps> = (props: FormProps) => {
   const { countries } = props;
 
-  const wordRepository = useRepositoryContainer<WordRepository>('wordRepository', new WordRepository());
-
   const [saving, setSaving] = useState(false);
   const [word, setWord] = useState<string>('');
   const [toLanguage, setToLanguage] = useState<string>('');
@@ -89,8 +84,8 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
   }, []);
 
   const addBlock = () => {
-    counterRef.current += 1;
-    const idx: number = counterRef.current;
+    (counterRef.current as number) += 1;
+    const idx: number = counterRef.current as number;
 
     {
       const t: IFormTranslation = { translation: '', desc: '', id: idx };
@@ -113,18 +108,18 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     setFormValid(isFormValid(word, fromLanguage, toLanguage, translations));
   };
 
-  const onFromLanguage = (value: string) => {
-    setFromLanguage(value);
-    setFormValid(isFormValid(word, value, toLanguage, translations));
+  const onFromLanguage = (value: LanguageOption) => {
+    setFromLanguage(value.value);
+    setFormValid(isFormValid(word, value.value, toLanguage, translations));
 
     setErrors(new ConstraintProcessor([new NotEqual(value)]).validate(toLanguage));
   };
 
-  const onToLanguage = (value: string) => {
-    setToLanguage(value);
-    setFormValid(isFormValid(word, fromLanguage, value, translations));
+  const onToLanguage = (value: LanguageOption) => {
+    setToLanguage(value.value);
+    setFormValid(isFormValid(word, fromLanguage, value.value, translations));
 
-    setErrors(new ConstraintProcessor([new NotEqual(value)]).validate(fromLanguage));
+    setErrors(new ConstraintProcessor([new NotEqual(value.value)]).validate(fromLanguage));
   };
 
   const onTranslationChange = (value: IFormTranslation) => {
@@ -155,16 +150,15 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     }
   };
 
-  const saveWord = () => {
+  const onSaveWord = () => {
     setSaving(true);
-    wordRepository.saveWord(createWordModel(word, fromLanguage, toLanguage, translations)).then(() => {
+    saveWord(createWordModel(word, fromLanguage, toLanguage, translations)).then(() => {
       setSaving(false);
-      navigate('/word/some-id/some-word');
     });
   };
 
   const selectStyles = {
-    control: (base) => ({ ...base, border: '4px solid rgb(244, 237, 231)' }),
+    control: (base: CSSProperties) => ({ ...base, border: '4px solid rgb(244, 237, 231)' }),
   };
 
   const tBlocks: JSX.Element[] | JSX.Element = createTranslationBlocks(translationBlocks, onTranslationChange, onTranslationDelete);
@@ -176,9 +170,9 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
       <div css={index.blockSeparator(5)} />
 
       <div css={index.twoRowGrid}>
-        <Select onChange={(v) => onFromLanguage(v)} options={countries} styles={selectStyles} placeholder="From language" />
+        <Select onChange={(v) => onFromLanguage(v as LanguageOption)} options={countries} styles={selectStyles} placeholder="From language" />
 
-        <Select onChange={(v) => onToLanguage(v)} options={countries} styles={selectStyles} placeholder="To language" />
+        <Select onChange={(v) => onToLanguage(v as LanguageOption)} options={countries} styles={selectStyles} placeholder="To language" />
       </div>
       {errors.includes('equal') && <p css={form.error}>From and to languages cannot be the same language</p>}
 
@@ -194,7 +188,7 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
         Add
       </button>
 
-      <button onClick={saveWord} disabled={!formValid || saving} css={form.saveButton}>
+      <button onClick={onSaveWord} disabled={!formValid || saving} css={form.saveButton}>
         SAVE
       </button>
     </div>

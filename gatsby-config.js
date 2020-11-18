@@ -9,13 +9,6 @@ module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: `Vocabulary build`,
-        start_url: `/`,
-      },
-    },
-    {
       resolve: 'gatsby-plugin-eslint',
       options: {
         test: /\.ts$|\.tsx$/,

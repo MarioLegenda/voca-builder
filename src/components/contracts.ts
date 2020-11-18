@@ -29,5 +29,7 @@ export interface Word {
   translations: SingleTranslation[];
 }
 
-// only designed to make something a repository for ref hook containers
-export interface Repository {}
+export type LanguageOption = {
+  value: string;
+  label: string;
+};
