@@ -112,7 +112,7 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
     setFromLanguage(value.value);
     setFormValid(isFormValid(word, value.value, toLanguage, translations));
 
-    setErrors(new ConstraintProcessor([new NotEqual(value)]).validate(toLanguage));
+    setErrors(new ConstraintProcessor([new NotEqual(value.value)]).validate(toLanguage));
   };
 
   const onToLanguage = (value: LanguageOption) => {
